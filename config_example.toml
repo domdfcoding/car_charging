@@ -1,0 +1,13 @@
+[influxdb]
+host = "http://192.168.0.40:8086"
+token = ""
+org = "Home"
+topic = "CHARGER/tele/SENSOR"
+field = "COUNTER_C1"
+
+[tariffs."Octopus Go"]
+night_start_time = 00:30:00
+night_end_time = 04:30:00
+night_rate = 9.5
+day_rate = 30.6
+start_date=2023-08-20T00:00:00

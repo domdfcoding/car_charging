@@ -13,3 +13,12 @@ enable_conda: false
 enable_docs: false
 enable_tests: false
 on_pypi: false
+
+python_versions:
+ - 3.8
+ - 3.9
+ - "3.10"
+ - "3.11"
+
+additional_ignore:
+ - "config.toml"

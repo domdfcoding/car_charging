@@ -1,0 +1,5 @@
+attrs>=23.1.0
+domdf-python-tools>=3.6.1
+influxdb-client>=1.37.0
+scipy>=1.9.0
+tomli>=2.0.1
