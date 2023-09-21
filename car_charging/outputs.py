@@ -55,7 +55,7 @@ def csv(charging_periods: List[Tuple[float, datetime.datetime, datetime.datetime
 			if is_bst(end.timetuple()):
 				end += datetime.timedelta(hours=1)
 
-			output.append(f'{total},{price:.2f},"{start:%a %d %B %Y %X}","{end:%a %d %B %Y %X}"')
+			output.append(f'{total:.3f},{price:.2f},"{start:%a %d %B %Y %X}","{end:%a %d %B %Y %X}"')
 
 	return '\n'.join(output)
 
