@@ -27,7 +27,7 @@ Parse configuration files.
 #
 
 # stdlib
-from typing import List
+from typing import List, TypedDict
 
 # 3rd party
 import attr
@@ -35,10 +35,30 @@ import tomli
 from domdf_python_tools.paths import PathPlus
 
 # this package
-from car_charging.influxdb import InfluxDBConfig
 from car_charging.tariff import Tariff
 
-__all__ = ["Config"]
+__all__ = ["Config", "InfluxDBConfig"]
+
+
+class InfluxDBConfig(TypedDict):
+	"""
+	Configuration for InfluxDB.
+	"""
+
+	#: The InfluxDB host.
+	host: str
+
+	#: The API token for InfluxDB.
+	token: str
+
+	#: The InfluxDB organisation.
+	org: str
+
+	#: The MQTT topic.
+	topic: str
+
+	#: The JSON key in the MQTT body containing the consumption in watt hours.
+	field: str
 
 
 @attr.define
@@ -46,6 +66,8 @@ class Config:
 	"""
 	Configuration for this library.
 	"""
+
+	datafile: PathPlus = attr.field(converter=PathPlus)
 
 	#: The configuration for InfluxDB.
 	influxdb: InfluxDBConfig
@@ -64,6 +86,7 @@ class Config:
 		tariffs = [Tariff.from_dict(tariff) for tariff in tariffs_toml.values()]
 
 		return cls(
+				config["datafile"],
 				config["influxdb"],
 				tariffs,
 				)

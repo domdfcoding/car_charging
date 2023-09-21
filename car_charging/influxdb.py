@@ -28,47 +28,29 @@ Interface to InfluxDB.
 
 # stdlib
 import datetime
-from typing import List, TypedDict
+from typing import List
 
 # 3rd party
 from influxdb_client import InfluxDBClient  # type: ignore[import]
 
 # this package
 from car_charging import consumption
-from car_charging.utils import json_datafile
+from car_charging.config import Config
 
-__all__ = ["InfluxDBConfig", "update_consumption_data"]
+__all__ = ["update_consumption_data"]
 
 tele_period = datetime.timedelta(seconds=20)
 
 
-class InfluxDBConfig(TypedDict):
-	"""
-	Configuration for InfluxDB.
-	"""
-
-	#: The InfluxDB host.
-	host: str
-
-	#: The API token for InfluxDB.
-	token: str
-
-	#: The InfluxDB organisation.
-	org: str
-
-	#: The MQTT topic.
-	topic: str
-
-	#: The JSON key in the MQTT body containing the consumption in watt hours.
-	field: str
-
-
-def update_consumption_data(influxdb_config: InfluxDBConfig) -> None:
+def update_consumption_data(config: Config) -> List[consumption.Consumption]:
 	"""
 	Update the cached consumption data from InfluxDB.
 
-	:param influxdb_config: Configuration for InfluxDB
+	:param config:
 	"""
+
+	influxdb_config = config.influxdb
+	json_datafile = config.datafile
 
 	consumption_data: List[consumption.Consumption]
 
@@ -105,3 +87,5 @@ def update_consumption_data(influxdb_config: InfluxDBConfig) -> None:
 					})
 
 		consumption.to_json(consumption_data, json_datafile)
+
+	return consumption_data

@@ -34,12 +34,13 @@ __email__: str = "dominic@davis-foster.co.uk"
 
 # stdlib
 import datetime
-from typing import Any, Dict, List, Tuple
+from typing import List, Tuple
 
 # 3rd party
 import scipy.ndimage  # type: ignore[import]
 
 # this package
+from car_charging.consumption import Consumption
 from car_charging.influxdb import tele_period
 from car_charging.tariff import Tariff
 from car_charging.utils import compensate_bst
@@ -48,7 +49,7 @@ __all__ = ["calculate_charging_periods"]
 
 
 def calculate_charging_periods(
-		consumption_data: List[Dict[str, Any]],
+		consumption_data: List[Consumption],
 		tariffs: List[Tariff],
 		) -> List[Tuple[float, datetime.datetime, datetime.datetime, float]]:
 	"""
@@ -63,7 +64,8 @@ def calculate_charging_periods(
 
 	for period in consumption_data:
 		all_values.append(period["value"])
-		period_start_times.append(datetime.datetime.fromisoformat(period["start_time"]))
+		# period_start_times.append(datetime.datetime.fromisoformat(period["start_time"]))
+		period_start_times.append(period["start_time"])
 
 	period_rates = []
 	for the_date in period_start_times:

@@ -32,11 +32,8 @@ import locale
 
 # 3rd party
 from domdf_python_tools.dates import is_bst
-from domdf_python_tools.paths import PathPlus
 
 __all__ = ["compensate_bst", "configure_locale"]
-
-json_datafile = PathPlus("car_charging.json")
 
 
 def compensate_bst(date: datetime.datetime) -> datetime.datetime:
