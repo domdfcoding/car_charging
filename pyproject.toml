@@ -37,6 +37,15 @@ license-key = "MIT"
 package = "car_charging"
 
 [tool.importcheck]
+always = [
+    "car_charging",
+    "car_charging.config",
+    "car_charging.consumption",
+    "car_charging.influxdb",
+    "car_charging.outputs",
+    "car_charging.tariff",
+    "car_charging.utils",
+]
 
 [tool.mypy]
 python_version = "3.8"
