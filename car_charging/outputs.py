@@ -29,12 +29,13 @@ Functions to output as CSV or to print to the terminal.
 # stdlib
 import datetime
 import locale
+from json import dumps as json_dumps
 from typing import List, Tuple
 
 # 3rd party
 from domdf_python_tools.dates import is_bst
 
-__all__ = ["console", "csv"]
+__all__ = ["console", "csv", "json"]
 
 
 def csv(charging_periods: List[Tuple[float, datetime.datetime, datetime.datetime, float]]) -> str:
@@ -86,3 +87,25 @@ def console(charging_periods: List[Tuple[float, datetime.datetime, datetime.date
 					price_formatted,
 					f"{start:%a %d %B %Y %X} - {end:%a %d %B %Y %X} ({end-start})"
 					)
+
+
+def json(charging_periods: List[Tuple[float, datetime.datetime, datetime.datetime, float]], **kwargs) -> str:
+	"""
+	Format the charging periods as JSON.
+
+	:param charging_periods:
+	"""
+
+	prepared_charging_periods: List[Tuple[float, str, str, float]] = []
+
+	for (total, start, end, price) in reversed(charging_periods):
+		if total > 0.01:
+			prepared_charging_periods.append({
+					"total": total,
+					"start": start.isoformat(),
+					"end": end.isoformat(),
+					"price": price,
+					"duration": str(end - start),
+					})
+
+	return json_dumps(prepared_charging_periods, **kwargs)
