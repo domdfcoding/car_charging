@@ -30,7 +30,7 @@ Functions to output as CSV or to print to the terminal.
 import datetime
 import locale
 from json import dumps as json_dumps
-from typing import List, Tuple
+from typing import List, Tuple, TypedDict
 
 # 3rd party
 from domdf_python_tools.dates import is_bst
@@ -89,6 +89,14 @@ def console(charging_periods: List[Tuple[float, datetime.datetime, datetime.date
 					)
 
 
+class _ChargingPeriod(TypedDict):
+	total: float
+	start: str
+	end: str
+	price: float
+	duration: str
+
+
 def json(charging_periods: List[Tuple[float, datetime.datetime, datetime.datetime, float]], **kwargs) -> str:
 	"""
 	Format the charging periods as JSON.
@@ -96,7 +104,7 @@ def json(charging_periods: List[Tuple[float, datetime.datetime, datetime.datetim
 	:param charging_periods:
 	"""
 
-	prepared_charging_periods: List[Tuple[float, str, str, float]] = []
+	prepared_charging_periods: List[_ChargingPeriod] = []
 
 	for (total, start, end, price) in reversed(charging_periods):
 		if total > 0.01:
