@@ -31,7 +31,7 @@ import datetime
 from typing import List
 
 # 3rd party
-from influxdb_client import InfluxDBClient  # type: ignore[import]
+from influxdb_client import InfluxDBClient
 
 # this package
 from car_charging import consumption
